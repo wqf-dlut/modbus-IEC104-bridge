@@ -1,6 +1,9 @@
 # modbus-IEC104-bridge
+
 将modbus 的server转换为IEC104的server
+
 python version 2.7
+
 一、转发表配置
 
 Py_yxconf.csv用来配置遥信地址，第一列是对外的IEC104 地址，第二列是ISCS的modbus地址word位，第三列是bit位
