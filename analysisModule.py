@@ -11,7 +11,7 @@ import threading
 import logging
 from logging.handlers import RotatingFileHandler
 class analysisModule():
-    def __init__(self,storageClass,RTUNUM,logger):
+    def __init__(self,storageClass,RTUNUM,logger,offset):
         '''
         :param self.yxBuffer: 遥信的缓存 索引为对外地址 ， [当前值，对内地址word，对内地址bit]
         :type self.yxBuffer:字典 {int:[string,int,int]}
@@ -24,13 +24,13 @@ class analysisModule():
         self.yxBuffer={} #使用字典提高查询效率 [当前值，对内地址word，对内地址bit]
         for i in II.file_control('r', yx_path):
             tmp = i.split(',')
-            self.yxBuffer[int(tmp[0])]=['0',int(tmp[1]),int(tmp[2])] #[value，对内地址word，对内地址bit]，tmp[0]是对外地址
+            self.yxBuffer[int(tmp[0])]=['0',int(tmp[1])-offset,int(tmp[2])] #[value，对内地址word，对内地址bit]，tmp[0]是对外地址
             
         yc_path = './py_ycconf.csv'
         self.ycBuffer={} #使用字典提高查询效率[value，对内地址word]
         for i in II.file_control('r', yc_path):
             tmp = i.split(',')
-            self.ycBuffer[int(tmp[0])] = ['0000',int(tmp[1])] #[value，对内地址word]，tmp[0]是对外地址
+            self.ycBuffer[int(tmp[0])] = ['0000',int(tmp[1])-offset] #[value，对内地址word]，tmp[0]是对外地址
         self.storageClass = storageClass
              
         self.sendSequence = '000000000000000'#二进制 15bit
