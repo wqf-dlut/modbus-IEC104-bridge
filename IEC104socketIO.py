@@ -84,7 +84,7 @@ class IEC104socketIO(socketserver.StreamRequestHandler):
         self.request.settimeout(TIMEOUT) #设置超时时间
         try:
             #每次链接生成2线程异步收发
-            acceptAnalysis = analysisModule.analysisModule(readStorageClass,RTUNUM,logger)
+            acceptAnalysis = analysisModule.analysisModule(readStorageClass,RTUNUM,logger,READSTORAGESTART)
             threadSend=threading.Thread(target = self.recvMessage,args=(acceptAnalysis,))
             threadRecv=threading.Thread(target = self.sendMessage,args=(acceptAnalysis,))
             threadRecv.setDaemon(True)
